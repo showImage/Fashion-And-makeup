@@ -131,7 +131,7 @@
 
       // Send data to Firebase Firestore
       try {
-        await db.collection("usersOfGogle").add({
+        await db.collection("users").add({
           email: emailInput.value,
           password: passwordInput.value
         });
